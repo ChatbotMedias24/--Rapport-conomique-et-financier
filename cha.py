@@ -90,12 +90,12 @@ with textcontainer:
     
 st.sidebar.subheader("Suggestions:")
 questions = [
+        "Comment le gouvernement prévoit-il de gérer les impacts économiques du changement climatique, notamment en termes de sécurité hydrique et énergétique ?",
         "Donnez-moi un résumé du rapport ",
         "Quels sont les principaux défis auxquels le Maroc doit faire face pour atteindre ses objectifs de développement durable ?",
         "Comment le Maroc a-t-il réussi à maintenir la croissance économique malgré les défis mondiaux, tels que les tensions géopolitiques et les crises climatiques ?",
-        "Quelles sont les principales priorités économiques du gouvernement pour 2025 ?",
-        "Comment le gouvernement prévoit-il de gérer les impacts économiques du changement climatique, notamment en termes de sécurité hydrique et énergétique ?"
-
+        "Quelles sont les principales priorités économiques du gouvernement pour 2025 ?"
+       
     ]    
  
 load_dotenv(st.secrets["OPENAI_API_KEY"])
