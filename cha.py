@@ -118,7 +118,7 @@ def main():
     st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport sur les établissements et entreprises publics 💬")
     
     # Load the document
-    docx = 'Rapport etablissement entreprise (3).docx'
+    docx = 'Rapport economique financier.docx'
     
     if docx is not None:
         text = docx2txt.process(docx)
