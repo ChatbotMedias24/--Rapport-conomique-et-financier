@@ -76,15 +76,18 @@ st.markdown(
             justify-content: flex-start; /* Aligner à droite pour l'assistant */
         }
         input[type="text"] {
-            background-color: #E0E0E0; /* Mettre le champ de saisie en gris clair */
-            color: black;
+            background-color: #E0E0E0;
         }
+
+        /* Style for placeholder text with bold font */
         input::placeholder {
             color: #555555; /* Gris foncé */
             font-weight: bold; /* Mettre en gras */
         }
+
+        /* Ajouter de l'espace en blanc sous le champ de saisie */
         .input-space {
-            height: 25px;
+            height: 20px;
             background-color: white;
         }
     </style>
@@ -115,7 +118,7 @@ conversation_history = StreamlitChatMessageHistory()
 
 def main():
     conversation_history = StreamlitChatMessageHistory()  # Créez l'instance pour l'historique
-    st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport sur les établissements et entreprises publics 💬")
+    st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport économique et financier 💬")
     
     # Load the document
     docx = 'Rapport economique financier.docx'
@@ -139,6 +142,7 @@ def main():
 
         # Afficher toujours la barre de saisie
         query_input = st.text_input("", key="text_input_query", placeholder="Posez votre question ici...", help="Posez votre question ici...")
+        st.markdown('<div class="input-space"></div>', unsafe_allow_html=True)
 
         if query_input and query_input not in st.session_state.previous_question:
             query = query_input
