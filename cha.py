@@ -75,6 +75,18 @@ st.markdown(
         .message-container.assistant {
             justify-content: flex-start; /* Aligner à droite pour l'assistant */
         }
+        input[type="text"] {
+            background-color: #E0E0E0; /* Mettre le champ de saisie en gris clair */
+            color: black;
+        }
+        input::placeholder {
+            color: #555555; /* Gris foncé */
+            font-weight: bold; /* Mettre en gras */
+        }
+        .input-space {
+            height: 25px;
+            background-color: white;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -122,9 +134,9 @@ def main():
         with open("aaa.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
 
-        st.markdown('<p style="margin-bottom: 0;"><h7><b>Posez vos questions ci-dessous:</b></h7></p>', unsafe_allow_html=True)
 
-        query_input = st.text_input("")
+        query_input = st.text_input("", key="text_input_query", placeholder="Posez votre question ici...",  help="Posez votre question ici...")
+        st.markdown('<div class="input-space"></div>', unsafe_allow_html=True)
         selected_questions = st.sidebar.radio("****Choisir :****", questions)
         
         # Initialize query
@@ -150,12 +162,16 @@ def main():
                 conversation_history.add_ai_message(response)
 
             formatted_messages = []
+            previous_role = None  # Variable pour stocker le rôle du message précédent
             for msg in conversation_history.messages:
                 role = "user" if msg.type == "human" else "assistant"
                 avatar = "🧑" if role == "user" else "🤖"
                 css_class = "user-message" if role == "user" else "assistant-message"
                 
-                message_div = f'<div class="{css_class}">{msg.content}</div>'
+                if role == "user" and previous_role == "assistant":
+                    message_div = f'<div class="{css_class}" style="margin-top: 25px;">{msg.content}</div>'
+                else:
+                    message_div = f'<div class="{css_class}">{msg.content}</div>'
                 avatar_div = f'<div class="avatar">{avatar}</div>'
                 
                 if role == "user":
@@ -164,6 +180,7 @@ def main():
                     formatted_message = f'<div class="message-container assistant"><div class="message-content">{message_div}</div><div class="message-avatar">{avatar_div}</div></div>'
                 
                 formatted_messages.append(formatted_message)
+                previous_role = role  # Mettre à jour le rôle du message précédent
 
             messages_html = "\n".join(formatted_messages)
             st.markdown(messages_html, unsafe_allow_html=True)
