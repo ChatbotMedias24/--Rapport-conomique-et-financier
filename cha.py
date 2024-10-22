@@ -115,10 +115,10 @@ conversation_history = StreamlitChatMessageHistory()
 
 def main():
     conversation_history = StreamlitChatMessageHistory()  # Créez l'instance pour l'historique
-    st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport économique et financier 💬")
+    st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport sur les établissements et entreprises publics 💬")
     
     # Load the document
-    docx = 'Rapport economique financier.docx'
+    docx = 'Rapport etablissement entreprise (3).docx'
     
     if docx is not None:
         text = docx2txt.process(docx)
@@ -134,20 +134,20 @@ def main():
         with open("aaa.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
 
-
-        query_input = st.text_input("", key="text_input_query", placeholder="Posez votre question ici...",  help="Posez votre question ici...")
         st.markdown('<div class="input-space"></div>', unsafe_allow_html=True)
         selected_questions = st.sidebar.radio("****Choisir :****", questions)
-        
-        # Initialize query
-        query = ""
-        
+
+        # Afficher toujours la barre de saisie
+        query_input = st.text_input("", key="text_input_query", placeholder="Posez votre question ici...", help="Posez votre question ici...")
+
         if query_input and query_input not in st.session_state.previous_question:
             query = query_input
             st.session_state.previous_question.append(query_input)
         elif selected_questions:
             query = selected_questions
-        
+        else:
+            query = ""
+
         if query:
             docs = VectorStore.similarity_search(query=query, k=3)
 
@@ -156,22 +156,23 @@ def main():
             with get_openai_callback() as cb:
                 response = chain.run(input_documents=docs, question=query)
                 
-                if "Donnez-moi un résumé du rapport" in query:
-                    response = "Le rapport du Projet de Loi de Finances 2025 met en avant la résilience de l'économie marocaine dans un contexte mondial marqué par des incertitudes persistantes, telles que les tensions géopolitiques et les défis climatiques. Il souligne les efforts du gouvernement pour consolider les acquis des 25 dernières années de réformes, tout en s'attaquant aux enjeux actuels, notamment en matière d'emploi, d'éducation, de protection sociale, ainsi que de sécurité hydrique et énergétique. Malgré les défis économiques mondiaux, le Maroc continue de bénéficier de la croissance de secteurs clés tels que l'automobile, l'aéronautique et le tourisme. Le rapport insiste sur l'importance de la poursuite des réformes structurelles, de la transition numérique et verte, tout en garantissant la soutenabilité des finances publiques par l'augmentation des recettes et la maîtrise des dépenses."
+                # Votre logique pour traiter les réponses
                 conversation_history.add_user_message(query)
                 conversation_history.add_ai_message(response)
 
+            # Format et afficher les messages comme précédemment
             formatted_messages = []
             previous_role = None  # Variable pour stocker le rôle du message précédent
             for msg in conversation_history.messages:
                 role = "user" if msg.type == "human" else "assistant"
                 avatar = "🧑" if role == "user" else "🤖"
                 css_class = "user-message" if role == "user" else "assistant-message"
-                
+
                 if role == "user" and previous_role == "assistant":
                     message_div = f'<div class="{css_class}" style="margin-top: 25px;">{msg.content}</div>'
                 else:
                     message_div = f'<div class="{css_class}">{msg.content}</div>'
+
                 avatar_div = f'<div class="avatar">{avatar}</div>'
                 
                 if role == "user":
