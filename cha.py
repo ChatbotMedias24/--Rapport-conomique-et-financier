@@ -118,7 +118,7 @@ conversation_history = StreamlitChatMessageHistory()
 
 def main():
     conversation_history = StreamlitChatMessageHistory()  # Créez l'instance pour l'historique
-    st.header("Projet de Loi de Finances pour l’année budgétaire 2025: Rapport économique et financier 💬")
+    st.header("PLF2025: Explorez le rapport économique et financier à travers notre chatbot 💬")
     
     # Load the document
     docx = 'Rapport economique financier.docx'
