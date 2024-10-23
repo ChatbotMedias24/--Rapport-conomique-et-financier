@@ -177,8 +177,8 @@ def main():
             if "Donnez-moi un résumé du rapport" in query:
                 summary="""Le rapport du Projet de Loi de Finances 2025 met en avant la résilience de l'économie marocaine dans un contexte mondial marqué par des incertitudes persistantes, telles que les tensions géopolitiques et les défis climatiques. Il souligne les efforts du gouvernement pour consolider les acquis des 25 dernières années de réformes, tout en s'attaquant aux enjeux actuels, notamment en matière d'emploi, d'éducation, de protection sociale, ainsi que de sécurité hydrique et énergétique. Malgré les défis économiques mondiaux, le Maroc continue de bénéficier de la croissance de secteurs clés tels que l'automobile, l'aéronautique et le tourisme. Le rapport insiste sur l'importance de la poursuite des réformes structurelles, de la transition numérique et verte, tout en garantissant la soutenabilité des finances publiques par l'augmentation des recettes et la maîtrise des dépenses."""
                 # Votre logique pour traiter les réponses
-                conversation_history.add_user_message(query)
-                conversation_history.add_ai_message(response)
+                #conversation_history.add_user_message(query)
+                #conversation_history.add_ai_message(response)
             st.session_state.conversation_history.add_ai_message(summary)  # Ajouter à l'historique
             
             # Afficher la question et le résumé de l'assistant
